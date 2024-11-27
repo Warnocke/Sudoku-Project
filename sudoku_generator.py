@@ -1,4 +1,5 @@
 import math,random
+import pygame
 
 """
 This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
@@ -7,7 +8,7 @@ https://www.geeksforgeeks.org/program-sudoku-generator/
 """
 
 class SudokuGenerator:
-    '''
+    """
 	create a sudoku board - initialize class variables and set up the 2D board
 	This should initialize:
 	self.row_length		- the length of each row
@@ -21,10 +22,17 @@ class SudokuGenerator:
 
 	Return:
 	None
-    '''
-    def __init__(self, row_length, removed_cells):
-        pass
+    """""
 
+    def __init__(self, row_length, removed_cells):
+        self.row_length = row_length
+        self.removed_cells = removed_cells
+        self.box_length = int(row_length ** 0.5)
+        self.board = []
+        for i in range(row_length):
+            self.board.append([])
+            for j in range(row_length):
+                self.board[i].append("_")
     '''
 	Returns a 2D python list of numbers which represents the board
 
@@ -32,8 +40,7 @@ class SudokuGenerator:
 	Return: list[list]
     '''
     def get_board(self):
-        pass
-
+        return self.board
     '''
 	Displays the board to the console
     This is not strictly required, but it may be useful for debugging purposes
@@ -187,6 +194,113 @@ class SudokuGenerator:
     def remove_cells(self):
         pass
 
+
+class Board:
+    """
+    Represents the entire Sudoku board, which is a 9x9 grid made of Cell objects.
+    """""
+
+    def __init__(self, width, height, screen, difficulty):
+        """
+        Initializes the board.
+        - width: The width of the display screen.
+        - height: The height of the display screen.
+        - screen: The pygame screen object to draw on.
+        - difficulty: The game difficulty level (easy, medium, hard).
+
+        Attributes to set:
+        - self.width, self.height: The dimensions of the grid.
+        - self.screen: The pygame screen for drawing.
+        - self.difficulty: Number of empty cells based on difficulty.
+        - self.grid: A 2D list representing the board, made up of Cell objects.
+        - self.selected_cell: The currently selected cell (None initially).
+        """""
+        pass
+
+    def draw(self):
+        """
+        Draws the Sudoku grid and all the cells on the screen.
+        - Draws the grid outline with bold lines for 3x3 boxes.
+        - Calls the draw method of each cell to display its value or sketch.
+        """""
+        pass
+
+    def select(self, row, col):
+        """
+        Marks the cell at (row, col) as the currently selected cell.
+        - Highlights the selected cell.
+        """""
+        pass
+
+    def click(self, x, y):
+        """
+        Determines if a click (x, y) is inside the grid.
+        - If so, returns the (row, col) of the clicked cell.
+        - If not, returns None.
+        """""
+        pass
+
+    def clear(self):
+        """
+        Clears the value or sketched value of the selected cell.
+        - Only works on cells the user is allowed to edit.
+        """""
+        pass
+
+    def sketch(self, value):
+        """
+        Sets a sketched value in the top-left corner of the selected cell.
+        - Sketched values are temporary and can be changed later.
+        """""
+        pass
+
+    def place_number(self, value):
+        """
+        Sets the final value of the selected cell.
+        - The sketched value is cleared after the final value is placed.
+        """""
+        pass
+
+    def reset_to_original(self):
+        """
+        Resets the board to its original state.
+        - Clears all user-filled cells, keeping only the initial values.
+        """""
+        pass
+
+    def is_full(self):
+        """
+        Checks if the board is completely filled (no empty cells).
+        - Returns True if full, False otherwise.
+        """""
+        pass
+
+    def update_board(self):
+        """
+        Updates the 2D grid based on the current values of all Cell objects.
+        """""
+        pass
+
+    def find_empty(self):
+        """"
+        Finds an empty cell on the board.
+        - Returns the (row, col) of the first empty cell found.
+        - If no empty cells remain, returns None.
+        """""
+        pass
+
+    def check_board(self):
+        """"
+        Checks if the current state of the board satisfies the Sudoku rules:
+        - Each row contains unique values.
+        - Each column contains unique values.
+        - Each 3x3 box contains unique values.
+
+        Returns True if the board is valid and solved, False otherwise.
+        """""
+        pass
+
+
 '''
 DO NOT CHANGE
 Provided for students
@@ -209,3 +323,6 @@ def generate_sudoku(size, removed):
     sudoku.remove_cells()
     board = sudoku.get_board()
     return board
+
+if __name__ == "__main__":
+    generated = generate_sudoku(9, 0)
