@@ -195,27 +195,18 @@ class SudokuGenerator:
         pass
 
 
-class Board:
+class Board():
     """
     Represents the entire Sudoku board, which is a 9x9 grid made of Cell objects.
     """""
 
     def __init__(self, width, height, screen, difficulty):
-        """
-        Initializes the board.
-        - width: The width of the display screen.
-        - height: The height of the display screen.
-        - screen: The pygame screen object to draw on.
-        - difficulty: The game difficulty level (easy, medium, hard).
-
-        Attributes to set:
-        - self.width, self.height: The dimensions of the grid.
-        - self.screen: The pygame screen for drawing.
-        - self.difficulty: Number of empty cells based on difficulty.
-        - self.grid: A 2D list representing the board, made up of Cell objects.
-        - self.selected_cell: The currently selected cell (None initially).
-        """""
-        pass
+        self.width = width
+        self.height = height
+        self.screen = screen
+        self.difficulty = difficulty
+        # self.grid = need cell class
+        # self.selected_cell = need cell class
 
     def draw(self):
         """
@@ -223,7 +214,16 @@ class Board:
         - Draws the grid outline with bold lines for 3x3 boxes.
         - Calls the draw method of each cell to display its value or sketch.
         """""
-        pass
+        for i in range(self.width+1):
+            pygame.draw.line(self.screen, "black", (80 * i, 0), (80 * i, 720), 3)
+        for i in range(self.height+1):
+            pygame.draw.line(self.screen, "black", (0, 80 * i), (720, 80 * i), 3)
+
+
+        for i in range(1, self.width//3):
+            pygame.draw.line(self.screen, "black", (80 * i * (self.width//3), 0), (80 * i * (self.width//3), 720), 6)
+        for i in range(1, self.height//3):
+            pygame.draw.line(self.screen, "black", (0, 80 * i * (self.width//3)), (720, 80 * i * (self.width//3)), 6)
 
     def select(self, row, col):
         """
@@ -324,5 +324,37 @@ def generate_sudoku(size, removed):
     board = sudoku.get_board()
     return board
 
+def main():
+    try:
+        pygame.init()
+
+        screen_width, screen_height = 720, 720
+        screen = pygame.display.set_mode((screen_width, screen_height))
+        clock = pygame.time.Clock()
+        sudoku_board = generate_sudoku(9, 0)
+
+        difficulty = "easy"
+        board = Board(width=9, height=9, screen=screen, difficulty=difficulty)
+
+        running = True
+        while running:
+
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print("click")
+
+                if event.type == pygame.QUIT:
+                    running = False
+
+            screen.fill("light blue")
+            screen.blit(pygame.image.load("sam classroom.png"), pygame.image.load("sam classroom.png").get_rect(topleft=(0, 0)))
+            board.draw()
+
+            pygame.display.flip()
+            clock.tick(60)
+
+    finally:
+        pygame.quit()
+
 if __name__ == "__main__":
-    generated = generate_sudoku(9, 0)
+    main()
