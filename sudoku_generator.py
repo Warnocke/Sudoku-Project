@@ -447,17 +447,17 @@ def main():
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if easy_button.collidepoint(event.pos):
                         difficulty = "easy"
-                        generate_sudoku(9, 30)
+                        original_board = generate_sudoku(9, 30)
                         print("easy")
                         start_screen = False
                     elif medium_button.collidepoint(event.pos):
                         difficulty = "medium"
-                        generate_sudoku(9,40)
+                        original_board = generate_sudoku(9,40)
                         print("medium")
                         start_screen = False
                     elif hard_button.collidepoint(event.pos):
                         difficulty = "hard"
-                        generate_sudoku(9,50)
+                        original_board = generate_sudoku(9,50)
                         print("hard")
                         start_screen = False
 
@@ -488,7 +488,6 @@ def main():
             pygame.display.flip()
             clock.tick(60)
 
-        original_board = generate_sudoku(9,0)
         board = Board(width=9, height=9, screen=screen, difficulty=difficulty)
 
         for row in range(len(original_board)):
@@ -509,7 +508,7 @@ def main():
                         start_screen = True
                         break
                     elif reset_button.collidepoint(event.pos):
-                        board.reset_to_original(original_board)
+                        board.reset_to_original()
                         print("reset button")
                     elif exit_button.collidepoint(event.pos):
                         running = False
