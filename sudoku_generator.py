@@ -333,7 +333,8 @@ class Board():
         Resets the board to its original state.
         - Clears all user-filled cells, keeping only the initial values.
         """""
-        pass
+        print("reset")
+        print("works")
 
     def is_full(self):
         """
