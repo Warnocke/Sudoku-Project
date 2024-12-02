@@ -433,6 +433,46 @@ def main():
         screen_width, screen_height = 720*scale, 800*scale
         screen = pygame.display.set_mode((screen_width, screen_height))
         clock = pygame.time.Clock()
+
+        start_screen = True
+        while start_screen:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    start_screen = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if start_button.collidepoint(event.pos):
+                        start_screen = False
+                        running = True
+                    elif quit_button.collidepoint(event.pos):
+                        start_screen = False
+
+            screen.fill("light blue")
+            title_font = pygame.font.Font(None, 80)
+            button_font = pygame.font.Font(None, 50)
+
+            title_text = title_font.render("Sudoku Game", True, "black")
+            title_rect = title_text.get_rect(center=(screen_width // 2, screen_height // 3))
+            screen.blit(title_text, title_rect)
+
+            start_button = pygame.Rect(screen_width // 3, screen_height // 2, screen_width // 3, 50)
+            quit_button = pygame.Rect(screen_width // 3, screen_height // 2 + 100, screen_width // 3, 50)
+
+            pygame.draw.rect(screen, "black", start_button)
+            pygame.draw.rect(screen, "black", quit_button)
+
+            start_text = button_font.render("Start", True, "white")
+            quit_text = button_font.render("Quit", True, "white")
+
+            start_text_rect = start_text.get_rect(center=start_button.center)
+            quit_text_rect = quit_text.get_rect(center=quit_button.center)
+
+            screen.blit(start_text, start_text_rect)
+            screen.blit(quit_text, quit_text_rect)
+
+            pygame.display.flip()
+            clock.tick(60)
+
+
         sudoku_board = generate_sudoku(9, 0)
 
         original_board = generate_sudoku(9,0)
