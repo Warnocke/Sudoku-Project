@@ -523,8 +523,9 @@ def main():
                     running = False
 
             screen.fill("light blue")
-            screen.blit(pygame.image.load("sam pixel classroom scaled.png"),
-            pygame.image.load("sam pixel classroom scaled.png").get_rect(topleft=(0, 0)))
+            s = pygame.image.load("sam pixel classroom scaled.png")
+            s.set_alpha(128)
+            screen.blit(s,s.get_rect(topleft=(0, 0)))
             board.draw()
 
             pygame.draw.rect(screen, "black", restart_button)
