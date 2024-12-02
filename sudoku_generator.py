@@ -508,7 +508,7 @@ def main():
                         start_screen = True
                         break
                     elif reset_button.collidepoint(event.pos):
-                        board.reset_to_original()
+                        board.reset_to_original(original_board)
                         print("reset button")
                     elif exit_button.collidepoint(event.pos):
                         running = False
