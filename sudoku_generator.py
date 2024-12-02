@@ -269,8 +269,8 @@ class Board():
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        # self.grid = need cell class
-        # self.selected_cell = need cell class
+        self.grid = [[Cell(0, row, col, screen) for col in range(width)] for row in range(height)]
+        self.selected_cell = None
 
     def draw(self):
         """
@@ -297,7 +297,12 @@ class Board():
         Marks the cell at (row, col) as the currently selected cell.
         - Highlights the selected cell.
         """""
-        pass
+        if self.selected_cell:
+            prev_row, prev_col = self.selected_cell
+            self.grid[prev_row][prev_col].selected = False
+
+        self.selected_cell = (row, col)
+        self.grid[row][col].selected = True
 
     def click(self, x, y):
         """
@@ -308,8 +313,8 @@ class Board():
         grid = (540, 540)
         cell_size = grid[0] // 9
         if x < grid[0] and y < grid[1]:
-            row = y // cell_size
-            col = x // cell_size
+            row = x // cell_size
+            col = y // cell_size
             return row, col
         return None
 
@@ -436,6 +441,7 @@ def main():
                     cellPosition = board.click(event.pos[0], event.pos[1])
                     if cellPosition is not None:
                         print(f'clicked in cell: {cellPosition}')
+                        board.select(cellPosition[0], cellPosition[1])
 
 
                 if event.type == pygame.QUIT:
