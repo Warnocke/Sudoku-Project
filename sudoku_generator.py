@@ -1,6 +1,5 @@
 import math,random
 import pygame
-from pygame.examples.moveit import WIDTH, HEIGHT
 
 """
 This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
@@ -51,6 +50,7 @@ class SudokuGenerator:
     '''
     def print_board(self):
         pass
+
     '''
 	Determines if num is contained in the specified row (horizontal) of the board
     If num is already in the specified row, return False. Otherwise, return True
@@ -103,17 +103,7 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def is_valid(self, row, col, num):
-        if not self.valid_in_row(row, num):
-            return False
-        if not self.valid_in_col(col, num):
-            return False
-
-        box_row_start = (row // 3) * 3
-        col_row_start = (col // 3) * 3
-        if not self.valid_in_box(box_row_start, col_row_start, num):
-            return False
-
-        return True
+        pass
 
     '''
     Fills the specified 3x3 box with values
@@ -202,14 +192,7 @@ class SudokuGenerator:
 	Return: None
     '''
     def remove_cells(self):
-        removed = 0
-        while removed < self.removed_cells:
-            row = random.randrange(self.row_length)
-            col = random.randrange(self.row_length)
-
-            if self.board[row][col] != 0:
-                self.board[row][col] = 0
-                removed += 1
+        pass
 
 
 class Board():
@@ -283,6 +266,7 @@ class Board():
         Resets the board to its original state.
         - Clears all user-filled cells, keeping only the initial values.
         """""
+        pass
 
     def is_full(self):
         """
@@ -344,7 +328,7 @@ def main():
     try:
         pygame.init()
 
-        screen_width, screen_height = 720, 800
+        screen_width, screen_height = 720, 720
         screen = pygame.display.set_mode((screen_width, screen_height))
         clock = pygame.time.Clock()
         sudoku_board = generate_sudoku(9, 0)
@@ -352,25 +336,12 @@ def main():
         difficulty = "easy"
         board = Board(width=9, height=9, screen=screen, difficulty=difficulty)
 
-        restart_button = pygame.Rect(50, 740, 180, 40)
-        reset_button = pygame.Rect(270, 740, 180, 40)
-        exit_button = pygame.Rect(490, 740, 180, 40)
-
         running = True
         while running:
 
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if restart_button.collidepoint(event.pos):
-                        sudoku_board = generate_sudoku(9, 0)
-                        board = Board(width=9, height=9, screen=screen, difficulty=difficulty)
-                        print("restart button")
-                    elif reset_button.collidepoint(event.pos):
-                        board.reset_to_original()
-                        print("reset button")
-                    elif exit_button.collidepoint(event.pos):
-                        running = False
-                        print("exit button")
+                    print("click")
 
                 if event.type == pygame.QUIT:
                     running = False
@@ -378,24 +349,6 @@ def main():
             screen.fill("light blue")
             screen.blit(pygame.image.load("sam classroom.png"), pygame.image.load("sam classroom.png").get_rect(topleft=(0, 0)))
             board.draw()
-
-            pygame.draw.rect(screen, "black", restart_button)
-            pygame.draw.rect(screen, "black", reset_button)
-            pygame.draw.rect(screen, "black", exit_button)
-
-            button_font = pygame.font.Font(None, 40)
-
-            restart_text = button_font.render("Restart", 0, "white")
-            reset_text = button_font.render("Reset", 0, "white")
-            exit_text = button_font.render("Exit", 0, "white")
-
-            restart_rect = restart_text.get_rect(center=restart_button.center)
-            reset_rect = reset_text.get_rect(center=reset_button.center)
-            exit_rect = exit_text.get_rect(center=exit_button.center)
-
-            screen.blit(restart_text, restart_rect)
-            screen.blit(reset_text, reset_rect)
-            screen.blit(exit_text, exit_rect)
 
             pygame.display.flip()
             clock.tick(60)
