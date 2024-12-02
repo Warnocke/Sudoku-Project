@@ -278,16 +278,18 @@ class Board():
         - Draws the grid outline with bold lines for 3x3 boxes.
         - Calls the draw method of each cell to display its value or sketch.
         """""
+
+        scale = 0.75
         for i in range(self.width + 1):
-            pygame.draw.line(self.screen, "black", (80 * i, 0), (80 * i, 720), 3)
+            pygame.draw.line(self.screen, "black", (60 * i, 0), (60 * i, 720*scale), 3)
         for i in range(self.height + 1):
-            pygame.draw.line(self.screen, "black", (0, 80 * i), (720, 80 * i), 3)
+            pygame.draw.line(self.screen, "black", (0, 60 * i), (720*scale, 60 * i), 3)
 
         for i in range(1, self.width // 3):
-            pygame.draw.line(self.screen, "black", (80 * i * (self.width // 3), 0), (80 * i * (self.width // 3), 720),
+            pygame.draw.line(self.screen, "black", (60 * i * (self.width // 3), 0), (60 * i * (self.width // 3), 720*scale),
                              6)
         for i in range(1, self.height // 3):
-            pygame.draw.line(self.screen, "black", (0, 80 * i * (self.width // 3)), (720, 80 * i * (self.width // 3)),
+            pygame.draw.line(self.screen, "black", (0, 60 * i * (self.width // 3)), (720*scale, 60 * i * (self.width // 3)),
                              6)
 
     def select(self, row, col):
@@ -395,8 +397,8 @@ def generate_sudoku(size, removed):
 def main():
     try:
         pygame.init()
-
-        screen_width, screen_height = 720, 800
+        scale = 0.75
+        screen_width, screen_height = 720*scale, 800*scale
         screen = pygame.display.set_mode((screen_width, screen_height))
         clock = pygame.time.Clock()
         sudoku_board = generate_sudoku(9, 0)
@@ -404,9 +406,9 @@ def main():
         difficulty = "easy"
         board = Board(width=9, height=9, screen=screen, difficulty=difficulty)
 
-        restart_button = pygame.Rect(50, 740, 180, 40)
-        reset_button = pygame.Rect(270, 740, 180, 40)
-        exit_button = pygame.Rect(490, 740, 180, 40)
+        restart_button = pygame.Rect(50*scale, 740*scale, 180*scale, 40*scale)
+        reset_button = pygame.Rect(270*scale, 740*scale, 180*scale, 40*scale)
+        exit_button = pygame.Rect(490*scale, 740*scale, 180*scale, 40*scale)
 
         running = True
         while running:
@@ -428,8 +430,8 @@ def main():
                     running = False
 
             screen.fill("light blue")
-            screen.blit(pygame.image.load("sam classroom.png"),
-                        pygame.image.load("sam classroom.png").get_rect(topleft=(0, 0)))
+            screen.blit(pygame.image.load("sam classroom scaled.png"),
+                        pygame.image.load("sam classroom scaled.png").get_rect(topleft=(0, 0)))
             board.draw()
 
             pygame.draw.rect(screen, "black", restart_button)
