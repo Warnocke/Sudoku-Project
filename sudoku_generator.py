@@ -352,13 +352,16 @@ class Board():
             self.grid[row][col].set_cell_value(value)
             self.grid[row][col].set_sketched_value(0)
 
-    def reset_to_original(self):
+    def reset_to_original(self, original_board):
         """
         Resets the board to its original state.
         - Clears all user-filled cells, keeping only the initial values.
         """""
-        print("reset")
-        print("works")
+        for row in range(len(self.grid)):
+            for col in range(len(self.grid[row])):
+                self.grid[row][col].set_cell_value(original_board[row][col])
+                self.grid[row][col].set_sketched_value(0)
+                self.grid[row][col].selected = False
 
     def is_full(self):
         """
@@ -429,8 +432,13 @@ def main():
         clock = pygame.time.Clock()
         sudoku_board = generate_sudoku(9, 0)
 
+        original_board = generate_sudoku(9,0)
         difficulty = "easy"
         board = Board(width=9, height=9, screen=screen, difficulty=difficulty)
+
+        for row in range(len(original_board)):
+            for col in range(len(original_board[row])):
+                board.grid[row][col].set_cell_value(original_board[row][col])
 
         restart_button = pygame.Rect(50*scale, 740*scale, 180*scale, 40*scale)
         reset_button = pygame.Rect(270*scale, 740*scale, 180*scale, 40*scale)
@@ -442,11 +450,9 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if restart_button.collidepoint(event.pos):
-                        sudoku_board = generate_sudoku(9, 0)
-                        board = Board(width=9, height=9, screen=screen, difficulty=difficulty)
                         print("restart button")
                     elif reset_button.collidepoint(event.pos):
-                        board.reset_to_original()
+                        board.reset_to_original(original_board)
                         print("reset button")
                     elif exit_button.collidepoint(event.pos):
                         running = False
