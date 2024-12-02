@@ -1,7 +1,7 @@
 import math, random
 import pygame
 from pygame.examples.moveit import WIDTH, HEIGHT
-from matplotlib.pyplot import fill_between
+# from matplotlib.pyplot import fill_between
 
 """
 This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
@@ -365,14 +365,17 @@ class Board():
         Checks if the board is completely filled (no empty cells).
         - Returns True if full, False otherwise.
         """""
-        pass
-        # for i in range(self.grid[])
+        for row in self.grid:
+            for cell in row:
+                if cell.value == 0:
+                    return False
+        return True
 
     def update_board(self):
         """
         Updates the 2D grid based on the current values of all Cell objects.
         """""
-        pass
+        return [[cell.value for cell in row] for row in self.grid]
 
     def find_empty(self):
         """"
