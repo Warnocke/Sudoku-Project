@@ -1,6 +1,7 @@
 import math, random
 import pygame
 from pygame.examples.moveit import WIDTH, HEIGHT
+from matplotlib.pyplot import fill_between
 
 """
 This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
@@ -170,7 +171,12 @@ class SudokuGenerator:
     '''
 
     def fill_box(self, row_start, col_start):
-        pass
+        for row in range(row_start, row_start + 3):
+            for col in range(col_start, col_start + 3):
+                while self.board[row][col] == '_':
+                    new_num = random.randint(1, 9)
+                    if self.valid_in_box(row_start, col_start, new_num):
+                        self.board[row][col] = new_num
 
     '''
     Fills the three boxes along the main diagonal of the board
@@ -181,7 +187,8 @@ class SudokuGenerator:
     '''
 
     def fill_diagonal(self):
-        pass
+        for i in range(0, 7, 3):
+            self.fill_box(i, i)
 
     '''
     DO NOT CHANGE
