@@ -435,15 +435,30 @@ def main():
         clock = pygame.time.Clock()
 
         start_screen = True
+
+        easy_button = pygame.Rect(screen_width // 3, screen_height // 2, screen_width // 3, 50)
+        medium_button = pygame.Rect(screen_width // 3, screen_height // 2 + 100, screen_width // 3, 50)
+        hard_button = pygame.Rect(screen_width // 3, screen_height // 2 + 200, screen_width // 3, 50)
+
         while start_screen:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     start_screen = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if start_button.collidepoint(event.pos):
+                    if easy_button.collidepoint(event.pos):
+                        difficulty = "easy"
+                        generate_sudoku(9, 30)
+                        print("easy")
                         start_screen = False
-                        running = True
-                    elif quit_button.collidepoint(event.pos):
+                    elif medium_button.collidepoint(event.pos):
+                        difficulty = "medium"
+                        generate_sudoku(9,40)
+                        print("medium")
+                        start_screen = False
+                    elif hard_button.collidepoint(event.pos):
+                        difficulty = "hard"
+                        generate_sudoku(9,50)
+                        print("hard")
                         start_screen = False
 
             screen.fill("light blue")
@@ -454,29 +469,26 @@ def main():
             title_rect = title_text.get_rect(center=(screen_width // 2, screen_height // 3))
             screen.blit(title_text, title_rect)
 
-            start_button = pygame.Rect(screen_width // 3, screen_height // 2, screen_width // 3, 50)
-            quit_button = pygame.Rect(screen_width // 3, screen_height // 2 + 100, screen_width // 3, 50)
+            pygame.draw.rect(screen, "black", easy_button)
+            pygame.draw.rect(screen, "black", medium_button)
+            pygame.draw.rect(screen, "black", hard_button)
 
-            pygame.draw.rect(screen, "black", start_button)
-            pygame.draw.rect(screen, "black", quit_button)
+            easy_text = button_font.render("Easy", True, "white")
+            medium_text = button_font.render("Medium", True, "white")
+            hard_text = button_font.render("Hard", True, "white")
 
-            start_text = button_font.render("Start", True, "white")
-            quit_text = button_font.render("Quit", True, "white")
+            easy_text_rect = easy_text.get_rect(center=easy_button.center)
+            medium_text_rect = medium_text.get_rect(center=medium_button.center)
+            hard_text_rect = hard_text.get_rect(center=hard_button.center)
 
-            start_text_rect = start_text.get_rect(center=start_button.center)
-            quit_text_rect = quit_text.get_rect(center=quit_button.center)
-
-            screen.blit(start_text, start_text_rect)
-            screen.blit(quit_text, quit_text_rect)
+            screen.blit(easy_text, easy_text_rect)
+            screen.blit(medium_text, medium_text_rect)
+            screen.blit(hard_text, hard_text_rect)
 
             pygame.display.flip()
             clock.tick(60)
 
-
-        sudoku_board = generate_sudoku(9, 0)
-
         original_board = generate_sudoku(9,0)
-        difficulty = "easy"
         board = Board(width=9, height=9, screen=screen, difficulty=difficulty)
 
         for row in range(len(original_board)):
@@ -488,12 +500,14 @@ def main():
         exit_button = pygame.Rect(490*scale, 740*scale, 180*scale, 40*scale)
 
         running = True
-        while running:
 
+        while running:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if restart_button.collidepoint(event.pos):
                         print("restart button")
+                        start_screen = True
+                        break
                     elif reset_button.collidepoint(event.pos):
                         board.reset_to_original(original_board)
                         print("reset button")
@@ -533,6 +547,9 @@ def main():
 
             pygame.display.flip()
             clock.tick(60)
+
+            if start_screen:
+                main()
 
     finally:
         pygame.quit()
