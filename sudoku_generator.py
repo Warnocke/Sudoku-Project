@@ -321,21 +321,29 @@ class Board():
         Clears the value or sketched value of the selected cell.
         - Only works on cells the user is allowed to edit.
         """""
-        pass
+        if self.selected_cell:
+            row, col = self.selected_cell
+            self.grid[row][col].set_cell_value(0)
+            self.grid[row][col].set_sketched_value(0)
 
     def sketch(self, value):
         """
         Sets a sketched value in the top-left corner of the selected cell.
         - Sketched values are temporary and can be changed later.
         """""
-        pass
+        if self.selected_cell:
+            row, col = self.selected_cell
+            self.grid[row][col].set_sketched_value(value)
 
     def place_number(self, value):
         """
         Sets the final value of the selected cell.
         - The sketched value is cleared after the final value is placed.
         """""
-        pass
+        if self.selected_cell:
+            row, col = self.selected_cell
+            self.grid[row][col].set_cell_value(value)
+            self.grid[row][col].set_sketched_value(0)
 
     def reset_to_original(self):
         """
@@ -351,6 +359,7 @@ class Board():
         - Returns True if full, False otherwise.
         """""
         pass
+        # for i in range(self.grid[])
 
     def update_board(self):
         """
