@@ -503,8 +503,7 @@ def main():
 
                     cellPosition = board.click(event.pos[0], event.pos[1])
                     if cellPosition is not None:
-                        print(f'clicked in cell: {cellPosition}')
-
+                        print(f'clicked in cell: {cellPosition}, value: {board.grid[cellPosition[0]][cellPosition[1]].value}')
 
                 if event.type == pygame.QUIT:
                     running = False
