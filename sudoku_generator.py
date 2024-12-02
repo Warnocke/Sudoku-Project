@@ -305,7 +305,13 @@ class Board():
         - If so, returns the (row, col) of the clicked cell.
         - If not, returns None.
         """""
-        pass
+        grid = (540, 540)
+        cell_size = grid[0] // 9
+        if x < grid[0] and y < grid[1]:
+            row = y // cell_size
+            col = x // cell_size
+            return row, col
+        return None
 
     def clear(self):
         """
@@ -426,12 +432,17 @@ def main():
                         running = False
                         print("exit button")
 
+                    cellPosition = board.click(event.pos[0], event.pos[1])
+                    if cellPosition is not None:
+                        print(f'clicked in cell: {cellPosition}')
+
+
                 if event.type == pygame.QUIT:
                     running = False
 
             screen.fill("light blue")
-            screen.blit(pygame.image.load("sam classroom scaled.png"),
-                        pygame.image.load("sam classroom scaled.png").get_rect(topleft=(0, 0)))
+            screen.blit(pygame.image.load("sam pixel classroom scaled.png"),
+            pygame.image.load("sam pixel classroom scaled.png").get_rect(topleft=(0, 0)))
             board.draw()
 
             pygame.draw.rect(screen, "black", restart_button)
