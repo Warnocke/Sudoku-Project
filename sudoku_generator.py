@@ -10,7 +10,7 @@ https://www.geeksforgeeks.org/program-sudoku-generator/
 
 
 class Cell:
-    def __init__(self, value, row, col, screen, cell_size=50):
+    def __init__(self, value, row, col, screen, cell_size=60):
 
         self.value = value
         self.row = row
@@ -29,8 +29,8 @@ class Cell:
 
     def draw(self):
 
-        x = self.col * self.cell_size
-        y = self.row * self.cell_size
+        x = self.row * self.cell_size
+        y = self.col * self.cell_size
 
         # Draw the cell border
         border_color = (255, 0, 0) if self.selected else (0, 0, 0)
@@ -278,19 +278,16 @@ class Board():
         - Draws the grid outline with bold lines for 3x3 boxes.
         - Calls the draw method of each cell to display its value or sketch.
         """""
-
+        cell_size = 60
         scale = 0.75
-        for i in range(self.width + 1):
-            pygame.draw.line(self.screen, "black", (60 * i, 0), (60 * i, 720*scale), 3)
-        for i in range(self.height + 1):
-            pygame.draw.line(self.screen, "black", (0, 60 * i), (720*scale, 60 * i), 3)
-
         for i in range(1, self.width // 3):
-            pygame.draw.line(self.screen, "black", (60 * i * (self.width // 3), 0), (60 * i * (self.width // 3), 720*scale),
-                             6)
+            pygame.draw.line(self.screen, "black", (60 * i * (self.width // 3), 0), (60 * i * (self.width // 3), 720*scale),6)
         for i in range(1, self.height // 3):
-            pygame.draw.line(self.screen, "black", (0, 60 * i * (self.width // 3)), (720*scale, 60 * i * (self.width // 3)),
-                             6)
+            pygame.draw.line(self.screen, "black", (0, 60 * i * (self.width // 3)), (720*scale, 60 * i * (self.width // 3)),6)
+
+        for row in self.grid:
+            for cell in row:
+                cell.draw()
 
     def select(self, row, col):
         """
@@ -315,6 +312,7 @@ class Board():
         if x < grid[0] and y < grid[1]:
             row = x // cell_size
             col = y // cell_size
+            self.select(row, col)
             return row, col
         return None
 
@@ -441,7 +439,6 @@ def main():
                     cellPosition = board.click(event.pos[0], event.pos[1])
                     if cellPosition is not None:
                         print(f'clicked in cell: {cellPosition}')
-                        board.select(cellPosition[0], cellPosition[1])
 
 
                 if event.type == pygame.QUIT:
