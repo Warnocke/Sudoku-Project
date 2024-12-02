@@ -517,6 +517,13 @@ def main():
                     cellPosition = board.click(event.pos[0], event.pos[1])
                     if cellPosition is not None:
                         print(f'clicked in cell: {cellPosition}, value: {board.grid[cellPosition[0]][cellPosition[1]].value}')
+                        print(original_board)
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key in range(pygame.K_1, pygame.K_9 + 1):
+                        num = event.key - pygame.K_0
+                        if board.selected_cell:
+                            board.place_number(num)
 
                 if event.type == pygame.QUIT:
                     running = False
