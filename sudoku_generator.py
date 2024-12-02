@@ -529,7 +529,7 @@ def main():
                     running = False
 
             screen.fill("light blue")
-            s = pygame.image.load("sam pixel classroom scaled.png")
+            s = pygame.image.load("sam classroom scaled.png")
             s.set_alpha(128)
             screen.blit(s,s.get_rect(topleft=(0, 0)))
             board.draw()
