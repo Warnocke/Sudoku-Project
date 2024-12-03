@@ -386,7 +386,11 @@ class Board():
         - Returns the (row, col) of the first empty cell found.
         - If no empty cells remain, returns None.
         """""
-        pass
+        for i in range(9):
+            for j in range(9):
+                if self.grid[i][j].value == 0:
+                    return (i, j)
+        return None
 
     def check_board(self):
         """"
@@ -397,7 +401,36 @@ class Board():
 
         Returns True if the board is valid and solved, False otherwise.
         """""
-        pass
+        for row in range(9):
+            for col in range(9):
+                for i in range(1, 10):
+                    if self.check_row(row, col, i) and self.check_column(row, col, i) and self.check_box(row // 3 * 3,
+                                                                                                         col // 3 * 3,
+                                                                                                         i):
+                        return True
+                    else:
+                        return False
+
+    def check_row(self, row, col, num):
+        for i in range(9):
+            if self.grid[i][col].value == num:
+                return False
+            else:
+                return True
+
+    def check_column(self, row, col, num):
+        for i in range(9):
+            if self.grid[row][i] == num:
+                return True
+            else:
+                return False
+
+    def check_box(self, row_start, col_start, num):
+        for i in range(3):
+            for j in range(3):
+                if self.grid[row_start + i][col_start + j].value == num:
+                    return False
+            return True
 
 
 '''
