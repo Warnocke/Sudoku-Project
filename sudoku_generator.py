@@ -421,13 +421,11 @@ class Board():
         """""
         for row in range(9):
             for col in range(9):
-                for i in range(1, 10):
-                    if self.check_row(row, col, i) and self.check_column(row, col, i) and self.check_box(row // 3 * 3,
-                                                                                                         col // 3 * 3,
-                                                                                                         i):
-                        return True
-                    else:
-                        return False
+                num = self.grid[row][col]
+                if self.check_row(row, col, num) and self.check_column(row, col, num) and self.check_box(row // 3 * 3,col // 3 * 3,num):
+                    return True
+                else:
+                    return False
 
     def check_row(self, row, col, num):
         for i in range(9):
