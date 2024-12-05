@@ -295,8 +295,6 @@ class Board():
         ]
         self.selected_cell = None
 
-        self.grid[0][0].is_generated = True
-
     def draw(self):
         """
         Draws the Sudoku grid and all the cells on the screen.
@@ -538,6 +536,9 @@ def main():
             screen.blit(medium_text, medium_text_rect)
             screen.blit(hard_text, hard_text_rect)
 
+            b = pygame.image.load("Sudoku Background.png")
+            screen.blit(b,b.get_rect(topleft=(0, 0)))
+
             pygame.display.flip()
             clock.tick(60)
 
@@ -568,9 +569,9 @@ def main():
                         print("exit button")
 
                     cellPosition = board.click(event.pos[0], event.pos[1])
-                    if cellPosition is not None:
-                        print(f'clicked in cell: {cellPosition}, value: {board.grid[cellPosition[0]][cellPosition[1]].value}')
-                        # print(original_board)
+                    # if cellPosition is not None:
+                    #     # print(f'clicked in cell: {cellPosition}, value: {board.grid[cellPosition[0]][cellPosition[1]].value}')
+                    #     # print(original_board)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key in range(pygame.K_1, pygame.K_9 + 1):
