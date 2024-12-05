@@ -272,13 +272,28 @@ class Board():
     Represents the entire Sudoku board, which is a 9x9 grid made of Cell objects.
     """""
 
-    def __init__(self, width, height, screen, difficulty):
+    def __init__(self, width, height, screen, difficulty, sudoku_board):
         self.width = width
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        self.grid = [[Cell(0, row, col, screen) for col in range(width)] for row in range(height)]
+        self.grid = [
+            [
+                Cell(
+                    value=sudoku_board[row][col],
+                    row=row,
+                    col=col,
+                    screen=screen,
+                    cell_size=60,
+                    is_generated=(sudoku_board[row][col] != 0),
+                )
+                for col in range(width)
+            ]
+            for row in range(height)
+        ]
         self.selected_cell = None
+
+        self.grid[0][0].is_generated = True
 
     def draw(self):
         """
@@ -331,8 +346,9 @@ class Board():
         """""
         if self.selected_cell:
             row, col = self.selected_cell
-            self.grid[row][col].set_cell_value(0)
-            self.grid[row][col].set_sketched_value(0)
+            if not self.grid[row][col].is_generated:
+                self.grid[row][col].set_cell_value(0)
+                self.grid[row][col].set_sketched_value(0)
 
     def sketch(self, value):
         """
@@ -350,8 +366,9 @@ class Board():
         """""
         if self.selected_cell:
             row, col = self.selected_cell
-            self.grid[row][col].set_cell_value(value)
-            self.grid[row][col].set_sketched_value(0)
+            if not self.grid[row][col].is_generated:
+                self.grid[row][col].set_cell_value(value)
+                self.grid[row][col].set_sketched_value(0)
 
     def reset_to_original(self, original_board):
         """
@@ -522,7 +539,7 @@ def main():
             pygame.display.flip()
             clock.tick(60)
 
-        board = Board(width=9, height=9, screen=screen, difficulty=difficulty)
+        board = Board(width=9, height=9, screen=screen, difficulty="easy", sudoku_board=original_board)
 
         for row in range(len(original_board)):
             for col in range(len(original_board[row])):
@@ -551,7 +568,7 @@ def main():
                     cellPosition = board.click(event.pos[0], event.pos[1])
                     if cellPosition is not None:
                         print(f'clicked in cell: {cellPosition}, value: {board.grid[cellPosition[0]][cellPosition[1]].value}')
-                        print(original_board)
+                        # print(original_board)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key in range(pygame.K_1, pygame.K_9 + 1):
@@ -563,7 +580,7 @@ def main():
                     running = False
 
             screen.fill("light blue")
-            s = pygame.image.load("sam classroom scaled.png")
+            s = pygame.image.load("sam pixel classroom scaled.png")
             s.set_alpha(128)
             screen.blit(s,s.get_rect(topleft=(0, 0)))
             board.draw()
