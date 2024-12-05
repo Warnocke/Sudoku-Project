@@ -38,11 +38,13 @@ class Cell:
         # Draw the cell border
         border_color = (255, 0, 0) if self.selected else (0, 0, 0)
         pygame.draw.rect(self.screen, border_color, (x, y, self.cell_size, self.cell_size), 2)
-        font = pygame.font.Font(None, 40)
+        font = pygame.font.Font(None, 60)
         if self.value != 0:
-
-            text = font.render(str(self.value), True, (0, 0, 0))
-            self.screen.blit(text, (x + self.cell_size // 3, y + self.cell_size // 3))
+            textColor = (255, 117, 117)
+            if self.is_generated:
+                textColor = (54, 54, 54)
+            text = font.render(str(self.value), True, textColor)
+            self.screen.blit(text, (-4 + x + self.cell_size // 3, -5 + y + self.cell_size // 3))
         elif self.sketched_value != 0:
 
             text = font.render(str(self.sketched_value), True, (128, 128, 128))
@@ -512,7 +514,7 @@ def main():
                         print("hard")
                         start_screen = False
 
-            screen.fill("light blue")
+            screen.fill((71, 78, 79))
             title_font = pygame.font.Font(None, 80)
             button_font = pygame.font.Font(None, 50)
 
@@ -579,9 +581,9 @@ def main():
                 if event.type == pygame.QUIT:
                     running = False
 
-            screen.fill("light blue")
+            screen.fill((237, 245, 255))
             s = pygame.image.load("sam pixel classroom scaled.png")
-            s.set_alpha(128)
+            s.set_alpha(60)
             screen.blit(s,s.get_rect(topleft=(0, 0)))
             board.draw()
 
