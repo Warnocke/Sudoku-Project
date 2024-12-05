@@ -11,7 +11,7 @@ https://www.geeksforgeeks.org/program-sudoku-generator/
 
 
 class Cell:
-    def __init__(self, value, row, col, screen, cell_size=60):
+    def __init__(self, value, row, col, screen, cell_size=60, is_generated=False):
 
         self.value = value
         self.row = row
@@ -20,13 +20,15 @@ class Cell:
         self.screen = screen
         self.cell_size = cell_size
         self.selected = False
+        self.is_generated = is_generated
 
     def set_cell_value(self, value):
-
-        self.value = value
+        if not self.is_generated:
+            self.value = value
 
     def set_sketched_value(self, value):
-        self.sketched_value = value
+        if not self.is_generated:
+            self.sketched_value = value
 
     def draw(self):
 
@@ -36,7 +38,6 @@ class Cell:
         # Draw the cell border
         border_color = (255, 0, 0) if self.selected else (0, 0, 0)
         pygame.draw.rect(self.screen, border_color, (x, y, self.cell_size, self.cell_size), 2)
-
         font = pygame.font.Font(None, 40)
         if self.value != 0:
 
