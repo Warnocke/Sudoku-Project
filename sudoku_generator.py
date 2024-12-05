@@ -387,7 +387,11 @@ class Board():
         - Returns the (row, col) of the first empty cell found.
         - If no empty cells remain, returns None.
         """""
-        pass
+        for i in range(9):
+            for j in range(9):
+                if self.grid[i][j].value == 0:
+                    return (i, j)
+        return None
 
     def check_board(self):
         """"
@@ -398,7 +402,36 @@ class Board():
 
         Returns True if the board is valid and solved, False otherwise.
         """""
-        pass
+        for row in range(9):
+            for col in range(9):
+                for i in range(1, 10):
+                    if self.check_row(row, col, i) and self.check_column(row, col, i) and self.check_box(row // 3 * 3,
+                                                                                                         col // 3 * 3,
+                                                                                                         i):
+                        return True
+                    else:
+                        return False
+
+    def check_row(self, row, col, num):
+        for i in range(9):
+            if self.grid[i][col].value == num:
+                return False
+            else:
+                return True
+
+    def check_column(self, row, col, num):
+        for i in range(9):
+            if self.grid[row][i] == num:
+                return True
+            else:
+                return False
+
+    def check_box(self, row_start, col_start, num):
+        for i in range(3):
+            for j in range(3):
+                if self.grid[row_start + i][col_start + j].value == num:
+                    return False
+            return True
 
 
 '''
@@ -552,6 +585,34 @@ def main():
             screen.blit(restart_text, restart_rect)
             screen.blit(reset_text, reset_rect)
             screen.blit(exit_text, exit_rect)
+
+            if board.is_full():
+                if board.check_board():
+                    font = pygame.font.Font(None, 80)
+                    win_text = font.render("Game Won!", True, "black")
+                    win_rect = win_text.get_rect(center=(screen_width // 2, screen_height // 3))
+                    screen.fill("light blue")
+                    screen.blit(win_text, win_rect)
+
+                    exit_button = pygame.Rect(screen_width // 3, screen_height // 1.5, 200 * scale, 50 * scale)
+                    pygame.draw.rect(screen, "black", exit_button)
+                    button_font = pygame.font.Font(None, 40)
+                    exit_text = button_font.render("Exit", 0, "white")
+                    exit_rect = exit_text.get_rect(center=exit_button.center)
+                    screen.blit(exit_text, exit_rect)
+                else:
+                    font = pygame.font.Font(None, 80)
+                    over_text = font.render("Game Over :(", True, "black")
+                    over_rect = over_text.get_rect(center=(screen_width // 2, screen_height // 3))
+                    screen.fill("light blue")
+                    screen.blit(over_text, over_rect)
+
+                    restart_button = pygame.Rect(screen_width // 3, screen_height // 1.5, 200 * scale, 50 * scale)
+                    pygame.draw.rect(screen, "black", restart_button)
+                    button_font = pygame.font.Font(None, 40)
+                    restart_text = button_font.render("Restart", 0, "white")
+                    restart_rect = restart_text.get_rect(center=restart_button.center)
+                    screen.blit(restart_text, restart_rect)
 
             pygame.display.flip()
             clock.tick(60)
