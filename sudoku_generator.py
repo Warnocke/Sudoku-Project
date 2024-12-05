@@ -574,6 +574,8 @@ def main():
                     #     # print(original_board)
 
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        board.place_number(0)
                     if event.key in range(pygame.K_1, pygame.K_9 + 1):
                         num = event.key - pygame.K_0
                         if board.selected_cell:
