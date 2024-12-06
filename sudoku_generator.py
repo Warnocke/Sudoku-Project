@@ -498,7 +498,7 @@ def main():
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if easy_button.collidepoint(event.pos):
                         difficulty = "easy"
-                        original_board = generate_sudoku(9, 3)
+                        original_board = generate_sudoku(9, 30)
                         print("easy")
                         start_screen = False
                     elif medium_button.collidepoint(event.pos):
