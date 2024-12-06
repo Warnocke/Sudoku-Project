@@ -419,36 +419,30 @@ class Board():
 
         Returns True if the board is valid and solved, False otherwise.
         """""
+        # Check all rows
         for row in range(9):
-            for col in range(9):
-                for i in range(1, 10):
-                    if self.check_row(row, col, i) and self.check_column(row, col, i) and self.check_box(row // 3 * 3,
-                                                                                                         col // 3 * 3,
-                                                                                                         i):
-                        return True
-                    else:
-                        return False
-
-    def check_row(self, row, col, num):
-        for i in range(9):
-            if self.grid[i][col].value == num:
-                return False
-            else:
-                return True
-
-    def check_column(self, row, col, num):
-        for i in range(9):
-            if self.grid[row][i] == num:
-                return True
-            else:
+            if not self.is_unique([self.grid[row][col].value for col in range(9)]):
                 return False
 
-    def check_box(self, row_start, col_start, num):
-        for i in range(3):
-            for j in range(3):
-                if self.grid[row_start + i][col_start + j].value == num:
+        # Check all columns
+        for col in range(9):
+            if not self.is_unique([self.grid[row][col].value for row in range(9)]):
+                return False
+
+        # Check all 3x3 boxes
+        for row_start in range(0, 9, 3):
+            for col_start in range(0, 9, 3):
+                box_values = [self.grid[row][col].value for row in range(row_start, row_start + 3) for col in
+                              range(col_start, col_start + 3)]
+                if not self.is_unique(box_values):
                     return False
-            return True
+
+        return True  # Board is valid
+
+    # Helper function to check uniqueness, excluding zeros (empty cells)
+    def is_unique(self, values):
+        numbers = [value for value in values if value != 0]
+        return len(numbers) == len(set(numbers))
 
 
 '''
